@@ -17,19 +17,26 @@ class _ExercisesScreenState extends State<ExercisesScreen> {
   late VideoPlayerController _controller;
   late ChewieController _chewieController;
 
+  String videoDuration = "0:00"; // Store the video duration
+
   @override
   void initState() {
     super.initState();
     _controller = VideoPlayerController.asset(widget.exercise.videoUrl)
       ..initialize().then((_) {
-        // Ensure the first frame is shown
-        setState(() {});
+        setState(() {
+          // Calculate video duration and store it as a formatted string
+          final duration = _controller.value.duration;
+          final minutes = duration.inMinutes;
+          final seconds = duration.inSeconds.remainder(60);
+          videoDuration = '$minutes:${seconds.toString().padLeft(2, '0')}';
+        });
       });
 
     _chewieController = ChewieController(
       videoPlayerController: _controller,
-      autoPlay: false, // You can set this to true for auto-play
-      looping: false, // Set to true if you want the video to loop
+      autoPlay: false,
+      looping: false,
     );
   }
 
@@ -49,11 +56,11 @@ class _ExercisesScreenState extends State<ExercisesScreen> {
             top: 0,
             left: 0,
             right: 0,
-            bottom: MediaQuery.of(context).size.height / 2, // Half of the screen height
+            bottom: MediaQuery.of(context).size.height / 2,
             child: Center(
               child: _controller.value.isInitialized
                   ? Container(
-                color: Colors.black, // Set the background color to black
+                color: Colors.black,
                 child: Chewie(
                   controller: _chewieController,
                 ),
@@ -71,12 +78,12 @@ class _ExercisesScreenState extends State<ExercisesScreen> {
               child: const Icon(
                 Icons.arrow_back,
                 size: 30,
-                color: Colors.white, // Set the back arrow color to white
+                color: Colors.white,
               ),
             ),
           ),
           Positioned(
-            top: MediaQuery.of(context).size.height / 2, // Start below the video
+            top: MediaQuery.of(context).size.height / 2,
             left: 20,
             right: 20,
             child: Column(
@@ -101,6 +108,14 @@ class _ExercisesScreenState extends State<ExercisesScreen> {
                 const SizedBox(height: 11),
                 Text(
                   'Equipment: ${widget.exercise.equipment}',
+                  style: const TextStyle(
+                    fontSize: 16,
+                    color: Colors.black,
+                  ),
+                ),
+                const SizedBox(height: 11),
+                Text(
+                  'Time: $videoDuration', // Display the video duration
                   style: const TextStyle(
                     fontSize: 16,
                     color: Colors.black,

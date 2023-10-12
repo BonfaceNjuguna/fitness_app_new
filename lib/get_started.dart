@@ -9,23 +9,24 @@ class GetStartedScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0.0,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.black),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ),
       body: Padding(
-        padding: const EdgeInsets.fromLTRB(20, 20, 20, 0), // Add padding for left alignment and top padding
+        padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start, // Align content to the left
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            GestureDetector(
-              onTap: () {
-                Navigator.pop(context); // Navigate back when the arrow is clicked
-              },
-              child: const Icon(
-                Icons.arrow_back,
-                size: 30,
-              ),
-            ),
             const SizedBox(height: 20),
             Text(
-              'Join our community'.toUpperCase(), // Make text uppercase
+              'Join our community'.toUpperCase(),
               style: const TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
@@ -39,11 +40,11 @@ class GetStartedScreen extends StatelessWidget {
                 color: Colors.black,
               ),
             ),
-            const SizedBox(height: 140), // Add padding between text and buttons
+            const SizedBox(height: 140),
             _buildButton(
               context: context,
               label: 'Google',
-              imageAssetPath: 'assets/google_logo.png', // Replace with your asset path
+              imageAssetPath: 'assets/google_logo.png',
               onPressed: () {
                 Navigator.push(
                   context,
@@ -55,7 +56,7 @@ class GetStartedScreen extends StatelessWidget {
             _buildButton(
               context: context,
               label: 'Apple',
-              imageAssetPath: 'assets/apple_logo.png', // Replace with your asset path
+              imageAssetPath: 'assets/apple_logo.png',
               onPressed: () {
                 Navigator.push(
                   context,
@@ -63,7 +64,7 @@ class GetStartedScreen extends StatelessWidget {
                 );
               },
             ),
-            const SizedBox(height: 40), // Add padding between buttons and the text below
+            const SizedBox(height: 40),
             _buildTextButton(
               label: "Are you a member? Log In",
               onPressed: () {
@@ -87,16 +88,16 @@ class GetStartedScreen extends StatelessWidget {
   }) {
     return Container(
       width: MediaQuery.of(context).size.width * 0.9,
-      height: 70, // Increase button height by 30
+      height: 70,
       padding: const EdgeInsets.all(10),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.zero, // Set no border radius
-            side: BorderSide(color: Colors.black), // Add a black border
+            borderRadius: BorderRadius.zero,
+            side: BorderSide(color: Colors.black),
           ),
-          foregroundColor: Colors.black, // Set text color to black
-          backgroundColor: Colors.white, // White background
+          foregroundColor: Colors.black,
+          backgroundColor: Colors.white,
         ),
         onPressed: onPressed,
         child: Row(
@@ -104,8 +105,8 @@ class GetStartedScreen extends StatelessWidget {
           children: [
             Image.asset(
               imageAssetPath,
-              width: 30, // Adjust the width as needed
-              height: 30, // Adjust the height as needed
+              width: 30,
+              height: 30,
             ),
             const SizedBox(width: 10),
             Text(
@@ -119,7 +120,6 @@ class GetStartedScreen extends StatelessWidget {
       ),
     );
   }
-
 
   Widget _buildTextButton({
     required String label,
@@ -145,7 +145,7 @@ class GetStartedScreen extends StatelessWidget {
               ],
             ),
             Container(
-              width: label.length * 10.0, // Adjust the multiplier as needed
+              width: label.length * 10.0,
               height: 2,
               color: Colors.black,
             ),

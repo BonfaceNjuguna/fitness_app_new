@@ -32,30 +32,34 @@ class _ReformerScreenState extends State<ReformerScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        elevation: 0.0,
+        backgroundColor: Colors.white, // Set the background color to white
+        leading: IconButton(
+          icon: const Icon(
+            Icons.arrow_back,
+            color: Colors.black, // Set the arrow color to black
+          ),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        title: const Text(
+          'Reformer',
+          style: TextStyle(
+            fontSize: 20,
+            color: Colors.black,
+          ),
+        ),
+      ),
       body: Padding(
         padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
-        child: SingleChildScrollView( // Wrap the Column with SingleChildScrollView
+        child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              GestureDetector(
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: const Icon(
-                  Icons.arrow_back,
-                  size: 30,
-                ),
-              ),
-              const SizedBox(height: 20),
-              const Text(
-                'Reformer',
-                style: TextStyle(
-                  fontSize: 20,
-                  color: Colors.black,
-                ),
-              ),
-              const SizedBox(height: 30),
+              const SizedBox(height: 10),
               Row(
                 children: [
                   Image.asset(
@@ -308,7 +312,6 @@ class _ReformerScreenState extends State<ReformerScreen> {
           ),
         ),
       ),
-
       bottomNavigationBar: BottomAppBar(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -513,7 +516,7 @@ class _ReformerScreenState extends State<ReformerScreen> {
                     height: 120,
                   ),
                 ),
-                const SizedBox(width: 40),
+                const SizedBox(width: 20),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -536,17 +539,6 @@ class _ReformerScreenState extends State<ReformerScreen> {
                   ),
                 ),
               ],
-            ),
-          ),
-          Positioned( // Position the button at the bottom right
-            bottom: 0,
-            right: 0,
-            child: ElevatedButton(
-              onPressed: () {
-                // Add your "Start Workout" logic here
-                // You can navigate to a workout screen or perform any action you want.
-              },
-              child: Text('Start Workout'),
             ),
           ),
         ],

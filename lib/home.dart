@@ -17,50 +17,52 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Image.asset('assets/logo.png'),
-              const SizedBox(height: 20),
-              _buildTextButton(
-                label: 'Are you a member? Log In',
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Expanded(
+              child: Center(
+                child: Image.asset('assets/logo.png'),
+              ),
+            ),
+            const SizedBox(height: 20),
+            _buildTextButton(
+              label: 'Are you a member? Log In',
+              onPressed: () {
+                setState(() {
+                  logInButtonClicked = true;
+                  signUpButtonClicked = false;
+                });
+                // Perform your custom login logic here if needed
+                // For now, let's just navigate to the LogInScreen
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const LogInScreen()),
+                );
+              },
+            ),
+            const SizedBox(height: 20),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.12,
+              child: _buildButton(
+                label: 'Get Started',
                 onPressed: () {
                   setState(() {
-                    logInButtonClicked = true;
-                    signUpButtonClicked = false;
+                    signUpButtonClicked = true;
+                    logInButtonClicked = false;
                   });
-                  // Perform your custom login logic here if needed
-                  // For now, let's just navigate to the StartScreen
+                  // Perform your custom sign up logic here if needed
+                  // For now, let's just navigate to the GetStartedScreen
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const LogInScreen()),
+                    MaterialPageRoute(builder: (context) => const GetStartedScreen()),
                   );
                 },
+                clicked: signUpButtonClicked,
               ),
-              const SizedBox(height: 20),
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.12,
-                child: _buildButton(
-                  label: 'Get Started',
-                  onPressed: () {
-                    setState(() {
-                      signUpButtonClicked = true;
-                      logInButtonClicked = false;
-                    });
-                    // Perform your custom sign up logic here if needed
-                    // For now, let's just navigate to the StartScreen
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const GetStartedScreen()),
-                    );
-                  },
-                  clicked: signUpButtonClicked,
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

@@ -11,14 +11,14 @@ class StrengthScreen extends StatefulWidget {
   State<StrengthScreen> createState() => _StrengthScreenState();
 }
 
-class Exercise {
+class StrengthExercise {
   final String name;
   final String focus;
   final String equipment;
   final String imageAsset;
   final String videoUrl;
 
-  Exercise({
+  StrengthExercise({
     required this.name,
     required this.focus,
     required this.equipment,
@@ -28,63 +28,57 @@ class Exercise {
 }
 
 class _StrengthScreenState extends State<StrengthScreen> {
-
-  // Define a function to filter exercises by equipment
-  List<Exercise> filterExercisesByEquipment(String equipment) {
-    return exercises.where((exercise) => exercise.equipment == equipment).toList();
-  }
-
-  List<Exercise> exercises = [
-    Exercise(
-      name: 'Bent over row',
-      focus: 'Back',
-      equipment: 'Dumbbells',
-      imageAsset: 'assets/reformer/Bent_over_row_thumbnail.png',
-      videoUrl: 'assets/reformer/Bent_over_row_video.mp4',
-    ),
-    Exercise(
-      name: 'Bicep curls',
-      focus: 'Biceps',
-      equipment: 'none',
-      imageAsset: 'assets/reformer/Bicep_curls_thumbnail.png',
-      videoUrl: 'assets/reformer/Bicep_curls_video.mp4',
-    ),
-    // Add more exercises here
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        elevation: 0.0,
+        backgroundColor: Colors.white,
+        leading: IconButton(
+          icon: const Icon(
+            Icons.arrow_back,
+            color: Colors.black,
+          ),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        title: const Text(
+          'Strength',
+          style: TextStyle(
+            fontSize: 20,
+            color: Colors.black,
+          ),
+        ),
+      ),
       body: Padding(
         padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              GestureDetector(
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: const Icon(
-                  Icons.arrow_back,
-                  size: 30,
-                ),
+              const SizedBox(height: 10),
+              buildCategorySection(
+                categoryTitle: 'With Equipment',
+                exercises: [
+                  bentOverRow,
+                  bicepCurls,
+                  hammerCurls,
+                  inclineChest,
+                  overheadShoulderPress,
+                  reverseDumbbellFlies,
+                  shoulderShrug,
+                  skullCrusher,
+                  tricepsDips,
+                  trxRows,
+                ],
               ),
               const SizedBox(height: 20),
-              const Text(
-                'Strength',
-                style: TextStyle(
-                  fontSize: 20,
-                  color: Colors.black,
-                ),
+              buildCategorySection(
+                categoryTitle: 'Without Equipment',
+                exercises: [pushUp],
               ),
-              const SizedBox(height: 30),
-              // Section 1: Exercises with Equipment (e.g., Dumbbells)
-              buildEquipmentSection("Dumbbells"),
-              const SizedBox(height: 20),
-              // Section 2: Exercises without Equipment
-              buildEquipmentSection("None"),
-              const SizedBox(height: 20),
             ],
           ),
         ),
@@ -160,6 +154,94 @@ class _StrengthScreenState extends State<StrengthScreen> {
     );
   }
 
+  StrengthExercise bentOverRow = StrengthExercise(
+    name: 'Bent over row',
+    focus: 'Back',
+    equipment: 'Dumbbells',
+    imageAsset: 'assets/reformer/Bent_over_row_thumbnail.png',
+    videoUrl: 'assets/reformer/Bent_over_row_video.mp4',
+  );
+
+  StrengthExercise bicepCurls = StrengthExercise(
+    name: 'Bicep curls',
+    focus: 'Biceps',
+    equipment: 'Dumbbells',
+    imageAsset: 'assets/reformer/Bicep_curls_thumbnail.png',
+    videoUrl: 'assets/reformer/Bicep_curls_video.mp4',
+  );
+
+  StrengthExercise hammerCurls = StrengthExercise(
+    name: 'Hammer curls',
+    focus: 'Biceps',
+    equipment: 'Dumbbells',
+    imageAsset: 'assets/reformer/Hammer_curls_thumbnail.png',
+    videoUrl: 'assets/reformer/Hammer_curls_video.mp4',
+  );
+
+  StrengthExercise inclineChest = StrengthExercise(
+    name: 'Incline chest press',
+    focus: 'Chest',
+    equipment: 'Dumbbells',
+    imageAsset: 'assets/reformer/Incline_chest_press_thumbnail.png',
+    videoUrl: 'assets/reformer/Incline_chest_press_video.mp4',
+  );
+
+  StrengthExercise overheadShoulderPress = StrengthExercise(
+    name: 'Overhead shoulder press',
+    focus: 'Shoulders',
+    equipment: 'Dumbbells',
+    imageAsset: 'assets/reformer/Overheard_shoulder_press_thumbnail.png',
+    videoUrl: 'assets/reformer/Overheard_shoulder_press_video.mp4',
+  );
+
+  StrengthExercise pushUp = StrengthExercise(
+    name: 'Push up',
+    focus: 'Chest',
+    equipment: 'None',
+    imageAsset: 'assets/reformer/Push_up_thumbnail.png',
+    videoUrl: 'assets/reformer/Push_up_video.mp4',
+  );
+
+  StrengthExercise reverseDumbbellFlies = StrengthExercise(
+    name: 'Reverse dumbbell flies',
+    focus: 'Back',
+    equipment: 'Dumbbells',
+    imageAsset: 'assets/reformer/Reverse_dumbbell_flies_thumbnail.png',
+    videoUrl: 'assets/reformer/Reverse_dumbbell_flies_video.mp4',
+  );
+
+  StrengthExercise shoulderShrug = StrengthExercise(
+    name: 'Shoulder shrug',
+    focus: 'Shoulders',
+    equipment: 'Dumbbells',
+    imageAsset: 'assets/reformer/Shoulder_shrug_thumbnail.png',
+    videoUrl: 'assets/reformer/Shoulder_shrug_video.mp4',
+  );
+
+  StrengthExercise skullCrusher = StrengthExercise(
+    name: 'Skull crusher',
+    focus: 'Triceps',
+    equipment: 'Dumbbells',
+    imageAsset: 'assets/reformer/Skull_crusher_thumbnail.png',
+    videoUrl: 'assets/reformer/Skull_crusher_video.mp4',
+  );
+
+  StrengthExercise tricepsDips = StrengthExercise(
+    name: 'Triceps dips',
+    focus: 'Triceps',
+    equipment: 'Parallel bars',
+    imageAsset: 'assets/reformer/Triceps_dips_thumbnail.png',
+    videoUrl: 'assets/reformer/Triceps_dips_video.mp4',
+  );
+
+  StrengthExercise trxRows = StrengthExercise(
+    name: 'TRX rows',
+    focus: 'Back',
+    equipment: 'TRX straps',
+    imageAsset: 'assets/reformer/TRX_rows_thumbnail.png',
+    videoUrl: 'assets/reformer/TRX_rows_video.mp4',
+  );
+
   void _showStartScreen(BuildContext context) {
     Navigator.push(
       context,
@@ -181,15 +263,15 @@ class _StrengthScreenState extends State<StrengthScreen> {
     );
   }
 
-  // Build a section of exercises based on equipment
-  Widget buildEquipmentSection(String equipment) {
-    final filteredExercises = filterExercisesByEquipment(equipment);
-
+  Widget buildCategorySection({
+    required String categoryTitle,
+    required List<StrengthExercise> exercises,
+  }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
+      children: [
         Text(
-          equipment == "None" ? "Exercises without Equipment" : "Exercises with $equipment",
+          categoryTitle,
           style: const TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.bold,
@@ -197,71 +279,76 @@ class _StrengthScreenState extends State<StrengthScreen> {
           ),
         ),
         const SizedBox(height: 10),
-        Padding(
-          padding: const EdgeInsets.only(left: 40),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              for (final exercise in filteredExercises)
-                buildExerciseCard(
-                  exercise: exercise,
-                  onTap: () {
-
-                  },
-                ),
-            ],
-          ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: exercises.map((exercise) {
+            return buildExerciseCard(
+              exercise: exercise,
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ExercisesScreen(exercise: exercise),
+                  ),
+                );
+              },
+            );
+          }).toList(),
         ),
       ],
     );
   }
 
   Widget buildExerciseCard({
-    required Exercise exercise,
+    required StrengthExercise exercise,
     required VoidCallback onTap,
   }) {
     return GestureDetector(
       onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.all(10),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color: const Color(0xFFE8EBEA),
-        ),
-        child: Row(
-          children: [
-            ClipRRect(
+      child: Stack( // Use a Stack to overlay the button
+        children: [
+          Container(
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
-              child: Image.asset(
-                exercise.imageAsset,
-                width: 120,
-                height: 120,
-              ),
+              color: const Color(0xFFE8EBEA),
             ),
-            const SizedBox(width: 40),
-            Expanded( // Use Expanded here
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Name: ${exercise.name}',
-                    style: const TextStyle(
-                      fontSize: 16,
-                      color: Colors.black,
-                    ),
+            child: Row(
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: Image.asset(
+                    exercise.imageAsset,
+                    width: 120,
+                    height: 120,
                   ),
-                  Text(
-                    'Focus: ${exercise.focus}',
-                    style: const TextStyle(
-                      fontSize: 16,
-                      color: Colors.black,
-                    ),
+                ),
+                const SizedBox(width: 20),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Name: ${exercise.name}',
+                        style: const TextStyle(
+                          fontSize: 16,
+                          color: Colors.black,
+                        ),
+                      ),
+                      Text(
+                        'Focus: ${exercise.focus}',
+                        style: const TextStyle(
+                          fontSize: 16,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
