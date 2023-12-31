@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-
-
 import 'setting_page.dart';
 import 'start_screen.dart';
 
@@ -12,9 +10,23 @@ class ProfilePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Profile'),
+        backgroundColor: Colors.white, // Set your desired app bar color
+        elevation: 0.0, // Set the elevation to 0.0
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: Colors.black),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ), toolbarTextStyle: TextTheme(
+          titleLarge: TextStyle(color: Colors.black), // Set the text color to black
+        ).bodyMedium, titleTextStyle: TextTheme(
+          titleLarge: TextStyle(color: Colors.black), // Set the text color to black
+        ).titleLarge,
       ),
-      body: const Center(
-        child: Text('Profile Page Content'),
+      body: SafeArea(
+        child: Center(
+          child: Text('Profile Page Content'),
+        ),
       ),
       bottomNavigationBar: BottomAppBar(
         child: Row(
@@ -27,7 +39,7 @@ class ProfilePage extends StatelessWidget {
                   onPressed: () {
                     _showStartScreen(context);
                   },
-                  icon: const Icon(
+                  icon: Icon(
                     Icons.home,
                     color: Colors.black,
                   ),
@@ -48,7 +60,7 @@ class ProfilePage extends StatelessWidget {
                     // Handle settings icon click
                     _showSettingsDialog(context);
                   },
-                  icon: const Icon(
+                  icon: Icon(
                     Icons.settings,
                     color: Colors.black,
                   ),
@@ -97,7 +109,7 @@ class ProfilePage extends StatelessWidget {
       child: Column(
         children: [
           Icon(icon, color: Colors.black),
-          const SizedBox(height: 10), // Removed 'const' here
+          SizedBox(height: 10), // Removed 'const' here
           Text(
             text,
             style: const TextStyle(

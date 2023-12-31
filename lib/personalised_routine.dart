@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:newfitnessapp/start_screen.dart';
+import 'start_screen.dart';
 import 'profile_page.dart';
 import 'setting_page.dart';
 
@@ -11,10 +11,22 @@ class PersonalisedRoutineScreen extends StatefulWidget {
 }
 
 class _PersonalisedRoutineScreen extends State<PersonalisedRoutineScreen> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white, // Set your desired app bar color
+        elevation: 0.0, // Set elevation to 0.0 for no shadow
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back,
+            color: Colors.black, // Set the arrow color to black
+          ),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+      ),
       body: const Center(
         child: Text('PR Screen'),
       ),

@@ -285,12 +285,12 @@ class _StrengthScreenState extends State<StrengthScreen> {
             return buildExerciseCard(
               exercise: exercise,
               onTap: () {
-                Navigator.push(
+                /*Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) => ExercisesScreen(exercise: exercise),
                   ),
-                );
+                );*/
               },
             );
           }).toList(),

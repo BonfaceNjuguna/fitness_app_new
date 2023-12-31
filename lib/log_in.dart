@@ -18,63 +18,74 @@ class LogInScreen extends StatelessWidget {
           },
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            const SizedBox(height: 20),
-            Text(
-              'Welcome Back'.toUpperCase(),
-              style: const TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
+      body: Stack(
+        children: [
+          // Background Image
+          Image.asset(
+            'assets/bgimage.jpeg',
+            fit: BoxFit.cover, // You can adjust the fit as needed
+            width: double.infinity,
+            height: double.infinity,
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                const SizedBox(height: 20),
+                Text(
+                  'Welcome Back'.toUpperCase(),
+                  style: const TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 20),
+                const Text(
+                  'Log in with one of the following options.',
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: Colors.black,
+                  ),
+                ),
+                const SizedBox(height: 140),
+                _buildButton(
+                  context: context,
+                  label: 'Google',
+                  imageAssetPath: 'assets/google_logo.png',
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const StartScreen()),
+                    );
+                  },
+                ),
+                const SizedBox(height: 10),
+                _buildButton(
+                  context: context,
+                  label: 'Apple',
+                  imageAssetPath: 'assets/apple_logo.png',
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const StartScreen()),
+                    );
+                  },
+                ),
+                const SizedBox(height: 40),
+                _buildTextButton(
+                  label: "Are you new? Get started        ",
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const GetStartedScreen()),
+                    );
+                  },
+                ),
+              ],
             ),
-            const SizedBox(height: 20),
-            const Text(
-              'Log in with one of the following options.',
-              style: TextStyle(
-                fontSize: 18,
-                color: Colors.black,
-              ),
-            ),
-            const SizedBox(height: 140),
-            _buildButton(
-              context: context,
-              label: 'Google',
-              imageAssetPath: 'assets/google_logo.png',
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const StartScreen()),
-                );
-              },
-            ),
-            const SizedBox(height: 10),
-            _buildButton(
-              context: context,
-              label: 'Apple',
-              imageAssetPath: 'assets/apple_logo.png',
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const StartScreen()),
-                );
-              },
-            ),
-            const SizedBox(height: 40),
-            _buildTextButton(
-              label: "Are you new? Get started        ",
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const GetStartedScreen()),
-                );
-              },
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -93,10 +104,10 @@ class LogInScreen extends StatelessWidget {
         style: ElevatedButton.styleFrom(
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.zero,
-            side: BorderSide(color: Color(0xFF6eb2cc)),
+            side: BorderSide(color: Colors.black),
           ),
-          foregroundColor: Colors.white,
-          backgroundColor: const Color(0xFF6eb2cc),
+          foregroundColor: Colors.black,
+          backgroundColor: Colors.white,
         ),
         onPressed: onPressed,
         child: Row(
@@ -137,15 +148,20 @@ class LogInScreen extends StatelessWidget {
                   label,
                   style: const TextStyle(
                     fontSize: 18,
-                    color: Color(0xFFea6c36),
+                    color: Colors.black,
                   ),
                 ),
                 const Icon(Icons.arrow_forward, size: 18),
               ],
             ),
             SizedBox(
-              width: label.length * 10.0,
+              width: label.length * 8.0,
               height: 2,
+            ),
+            Container(
+              width: label.length * 8.0,
+              height: 2,
+              color: Colors.black,
             ),
           ],
         ),

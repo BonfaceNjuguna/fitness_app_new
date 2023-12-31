@@ -4,7 +4,6 @@ import 'profile_page.dart';
 import 'setting_page.dart';
 import 'start_screen.dart';
 
-
 class StretchingScreen extends StatefulWidget {
   const StretchingScreen({Key? key}) : super(key: key);
 
@@ -13,12 +12,23 @@ class StretchingScreen extends StatefulWidget {
 }
 
 class _StretchingScreen extends State<StretchingScreen> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: const Center(
-        child: Text('Stretching Screen'),
+      appBar: AppBar(
+        backgroundColor: Colors.white, // Set your desired app bar color
+        elevation: 0.0, // Set the elevation to 0.0
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: Colors.black),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+      ),
+      body: SafeArea(
+        child: Center(
+          child: Text('Stretching Screen'),
+        ),
       ),
       bottomNavigationBar: BottomAppBar(
         child: Row(
@@ -31,7 +41,7 @@ class _StretchingScreen extends State<StretchingScreen> {
                   onPressed: () {
                     _showStartScreen(context);
                   },
-                  icon: const Icon(
+                  icon: Icon(
                     Icons.home,
                     color: Colors.black,
                   ),
@@ -52,7 +62,7 @@ class _StretchingScreen extends State<StretchingScreen> {
                     // Handle settings icon click
                     _showSettingsDialog(context);
                   },
-                  icon: const Icon(
+                  icon: Icon(
                     Icons.settings,
                     color: Colors.black,
                   ),
@@ -72,7 +82,7 @@ class _StretchingScreen extends State<StretchingScreen> {
                   onPressed: () {
                     _showProfileDialog(context);
                   },
-                  icon: const Icon(
+                  icon: Icon(
                     Icons.person,
                     color: Colors.black,
                   ),

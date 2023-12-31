@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'log_in.dart';
 import 'start_screen.dart';
 
@@ -19,63 +18,74 @@ class GetStartedScreen extends StatelessWidget {
           },
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            const SizedBox(height: 20),
-            Text(
-              'Join our community'.toUpperCase(),
-              style: const TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
+      body: Stack(
+        children: [
+          // Background Image
+          Image.asset(
+            'assets/bgimage.jpeg',
+            fit: BoxFit.cover, // You can adjust the fit as needed
+            width: double.infinity,
+            height: double.infinity,
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                const SizedBox(height: 20),
+                Text(
+                  'Join our community'.toUpperCase(),
+                  style: const TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 20),
+                const Text(
+                  'Sign up with one of the following options.',
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: Colors.black,
+                  ),
+                ),
+                const SizedBox(height: 140),
+                _buildButton(
+                  context: context,
+                  label: 'Google',
+                  imageAssetPath: 'assets/google_logo.png',
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const StartScreen()),
+                    );
+                  },
+                ),
+                const SizedBox(height: 10),
+                _buildButton(
+                  context: context,
+                  label: 'Apple',
+                  imageAssetPath: 'assets/apple_logo.png',
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const StartScreen()),
+                    );
+                  },
+                ),
+                const SizedBox(height: 40),
+                _buildTextButton(
+                  label: "Are you a member? Log In",
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const LogInScreen()),
+                    );
+                  },
+                ),
+              ],
             ),
-            const SizedBox(height: 20),
-            const Text(
-              'Sign up with one of the following options.',
-              style: TextStyle(
-                fontSize: 18,
-                color: Colors.black,
-              ),
-            ),
-            const SizedBox(height: 140),
-            _buildButton(
-              context: context,
-              label: 'Google',
-              imageAssetPath: 'assets/google_logo.png',
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const StartScreen()),
-                );
-              },
-            ),
-            const SizedBox(height: 10),
-            _buildButton(
-              context: context,
-              label: 'Apple',
-              imageAssetPath: 'assets/apple_logo.png',
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const StartScreen()),
-                );
-              },
-            ),
-            const SizedBox(height: 40),
-            _buildTextButton(
-              label: "Are you a member? Log In",
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const LogInScreen()),
-                );
-              },
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -144,8 +154,12 @@ class GetStartedScreen extends StatelessWidget {
                 const Icon(Icons.arrow_forward, size: 18),
               ],
             ),
+            SizedBox(
+              width: label.length * 9.5,
+              height: 2,
+            ),
             Container(
-              width: label.length * 10.0,
+              width: label.length * 9.5,
               height: 2,
               color: Colors.black,
             ),
