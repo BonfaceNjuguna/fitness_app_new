@@ -1,18 +1,18 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
-import 'get_started.dart';
-import 'log_in.dart';
+import 'start_screen.dart';
+import 'user_controller.dart';
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
+  const MyHomePage({Key? key}) : super(key: key);
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  bool logInButtonClicked = false;
-  bool signUpButtonClicked = false;
+  bool continueWithGoogleClicked = false;
+  bool continueWithAppleClicked = false;
 
   @override
   Widget build(BuildContext context) {
@@ -23,43 +23,88 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             Expanded(
               child: Center(
-                child: Image.asset('assets/logo.png'),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset('assets/logo.png'),
+                    const SizedBox(height: 20),
+                    Text(
+                      'Welcome to Sarah Fitness',
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      'Continue with:',
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
             const SizedBox(height: 20),
-            _buildTextButton(
-              label: 'Are you a member? Log In',
-              onPressed: () {
-                setState(() {
-                  logInButtonClicked = true;
-                  signUpButtonClicked = false;
-                });
-                // Perform your custom login logic here if needed
-                // For now, let's just navigate to the LogInScreen
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const LogInScreen()),
-                );
-              },
-            ),
-            const SizedBox(height: 20),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.12,
-              child: _buildButton(
-                label: 'Get Started',
-                onPressed: () {
-                  setState(() {
-                    signUpButtonClicked = true;
-                    logInButtonClicked = false;
-                  });
-                  // Perform your custom sign up logic here if needed
-                  // For now, let's just navigate to the GetStartedScreen
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const GetStartedScreen()),
-                  );
-                },
-                clicked: signUpButtonClicked,
+            Transform.translate(
+              offset: Offset(0, -MediaQuery.of(context).size.height * 0.15),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  _buildButton(
+                    label: 'Google',
+                    imageAssetPath: 'assets/google_logo.png',
+                    onPressed: () async {
+                      setState(() {
+                        continueWithGoogleClicked = true;
+                        continueWithAppleClicked = false;
+                      });
+
+                      try {
+                        final user = await UserController.loginWithGoogle();
+
+                        if (user != null && mounted) {
+                          Navigator.of(context).pushReplacement(
+                            MaterialPageRoute(builder: (context) => const StartScreen()),
+                          );
+                        }
+                      } on FirebaseAuthException catch (e) {
+                        print(e.message);
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              e.message ?? "Something went wrong",
+                            ),
+                          ),
+                        );
+                      } catch (e) {
+                        print(e);
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              e.toString(),
+                            ),
+                          ),
+                        );
+                      }
+                    },
+                    clicked: continueWithGoogleClicked,
+                  ),
+                  const SizedBox(width: 10), // Add spacing between buttons
+                  _buildButton(
+                    label: 'Apple',
+                    imageAssetPath: 'assets/apple_logo.png',
+                    onPressed: () {
+                      setState(() {
+                        continueWithAppleClicked = true;
+                        continueWithGoogleClicked = false;
+                      });
+                      // Perform your custom Apple sign-in logic here if needed
+                    },
+                    clicked: continueWithAppleClicked,
+                  ),
+                ],
               ),
             ),
           ],
@@ -70,63 +115,39 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Widget _buildButton({
     required String label,
+    required String imageAssetPath,
     required VoidCallback onPressed,
     required bool clicked,
   }) {
     return Container(
-      width: double.infinity,
+      width: MediaQuery.of(context).size.width * 0.4, // Adjust width as needed
       padding: const EdgeInsets.all(10),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(0), // Set radius to 0 for sharp corners
-          ),
-          foregroundColor: Colors.white,
-          backgroundColor: Colors.black,
-          side: const BorderSide(color: Colors.black),
+            side: BorderSide(color: Colors.black), // Set black border
+          ), backgroundColor: Colors.white,
+          foregroundColor: Colors.white, // Set transparent background
         ),
-        onPressed: onPressed,
+        onPressed: clicked ? null : onPressed,
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Expanded(
-              child: Text(
-                label,
-                style: const TextStyle(
-                  fontSize: 20,
-                ),
-              ),
+            Image.asset(
+              imageAssetPath,
+              width: 30, // Set the width as needed
+              height: 30, // Set the height as needed
             ),
-            const Text(
-              '>',
-              style: TextStyle(
-                fontSize: 30, // You can adjust the font size as needed
+            const SizedBox(width: 10), // Add some spacing between image and label
+            Text(
+              label,
+              style: const TextStyle(
+                fontSize: 20,
+                color: Colors.black, // Set text color to black
               ),
             ),
           ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildTextButton({
-    required String label,
-    required VoidCallback onPressed,
-  }) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 0),
-      child: Container(
-        decoration: const BoxDecoration(
-          border: Border(bottom: BorderSide(color: Colors.black, width: 2)),
-        ),
-        child: GestureDetector(
-          onTap: onPressed,
-          child: Text(
-            label,
-            style: const TextStyle(
-              fontSize: 20,
-              color: Colors.black,
-            ),
-          ),
         ),
       ),
     );

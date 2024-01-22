@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'profile_page.dart';
 import 'setting_page.dart';
 import 'start_screen.dart';
@@ -8,18 +7,18 @@ class StretchingScreen extends StatefulWidget {
   const StretchingScreen({Key? key}) : super(key: key);
 
   @override
-  State<StretchingScreen> createState() => _StretchingScreen();
+  State<StretchingScreen> createState() => _StretchingScreenState();
 }
 
-class _StretchingScreen extends State<StretchingScreen> {
+class _StretchingScreenState extends State<StretchingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white, // Set your desired app bar color
-        elevation: 0.0, // Set the elevation to 0.0
+        backgroundColor: Colors.white,
+        elevation: 0.0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black),
+          icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () {
             Navigator.of(context).pop();
           },
@@ -30,96 +29,16 @@ class _StretchingScreen extends State<StretchingScreen> {
           child: Text('Stretching Screen'),
         ),
       ),
-      bottomNavigationBar: BottomAppBar(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                IconButton(
-                  onPressed: () {
-                    _showStartScreen(context);
-                  },
-                  icon: Icon(
-                    Icons.home,
-                    color: Colors.black,
-                  ),
-                ),
-                const Text(
-                  'Home',
-                  style: TextStyle(
-                    color: Colors.black,
-                  ),
-                ),
-              ],
-            ),
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                IconButton(
-                  onPressed: () {
-                    // Handle settings icon click
-                    _showSettingsDialog(context);
-                  },
-                  icon: Icon(
-                    Icons.settings,
-                    color: Colors.black,
-                  ),
-                ),
-                const Text(
-                  'Settings',
-                  style: TextStyle(
-                    color: Colors.black,
-                  ),
-                ),
-              ],
-            ),
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                IconButton(
-                  onPressed: () {
-                    _showProfileDialog(context);
-                  },
-                  icon: Icon(
-                    Icons.person,
-                    color: Colors.black,
-                  ),
-                ),
-                const Text(
-                  'Profile',
-                  style: TextStyle(
-                    color: Colors.black,
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget buildClickableTextWithIcon({
-    required IconData icon,
-    required String text,
-    required VoidCallback onTap,
-  }) {
-    return InkWell(
-      onTap: onTap,
-      child: Column(
-        children: [
-          Icon(icon, color: Colors.black),
-          const SizedBox(height: 10),
-          Text(
-            text,
-            style: const TextStyle(
-              color: Colors.black,
-              fontSize: 18,
-            ),
-          ),
-        ],
+      bottomNavigationBar: CustomBottomBar(
+        onHomePressed: () {
+          _showStartScreen(context);
+        },
+        onSettingsPressed: () {
+          _showSettingsDialog(context);
+        },
+        onProfilePressed: () {
+          _showProfileDialog(context);
+        },
       ),
     );
   }
@@ -142,6 +61,96 @@ class _StretchingScreen extends State<StretchingScreen> {
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => const ProfilePage()),
+    );
+  }
+}
+
+class CustomBottomBar extends StatelessWidget {
+  final VoidCallback onHomePressed;
+  final VoidCallback onSettingsPressed;
+  final VoidCallback onProfilePressed;
+
+  const CustomBottomBar({
+    Key? key,
+    required this.onHomePressed,
+    required this.onSettingsPressed,
+    required this.onProfilePressed,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 110,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            spreadRadius: 1,
+            blurRadius: 10,
+            offset: const Offset(0, -1),
+          ),
+        ],
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              IconButton(
+                onPressed: onHomePressed,
+                icon: const Icon(
+                  Icons.home,
+                  color: Colors.black,
+                ),
+              ),
+              const Text(
+                'Home',
+                style: TextStyle(
+                  color: Colors.black,
+                ),
+              ),
+            ],
+          ),
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              IconButton(
+                onPressed: onSettingsPressed,
+                icon: const Icon(
+                  Icons.settings,
+                  color: Colors.black,
+                ),
+              ),
+              const Text(
+                'Settings',
+                style: TextStyle(
+                  color: Colors.black,
+                ),
+              ),
+            ],
+          ),
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              IconButton(
+                onPressed: onProfilePressed,
+                icon: const Icon(
+                  Icons.person,
+                  color: Colors.black,
+                ),
+              ),
+              const Text(
+                'Profile',
+                style: TextStyle(
+                  color: Colors.black,
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }

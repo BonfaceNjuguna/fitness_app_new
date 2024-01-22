@@ -1,10 +1,19 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'firebase_options.dart';
 import 'home.dart';
 import 'setting_page.dart';
+import 'start_screen.dart';
+import 'user_controller.dart';
 
-void main() {
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+  UserController().initUser();
+
   runApp(
     ChangeNotifierProvider(
       create: (context) => ThemeNotifier(),
@@ -24,7 +33,7 @@ class MyApp extends StatelessWidget {
       theme: themeNotifier.isDarkModeEnabled
           ? ThemeData.dark().copyWith(primaryColor: Colors.transparent)
           : ThemeData.light().copyWith(primaryColor: Colors.transparent),
-      home: const MyHomePage(),
+      home: UserController.user != null ? const StartScreen() : const MyHomePage(),
     );
   }
 }

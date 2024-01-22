@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:newfitnessapp/home.dart';
 import 'setting_page.dart';
 import 'start_screen.dart';
+import 'user_controller.dart';
+import 'history_screen.dart'; // Import the HistoryScreen
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -10,115 +13,109 @@ class ProfilePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Profile'),
-        backgroundColor: Colors.white, // Set your desired app bar color
-        elevation: 0.0, // Set the elevation to 0.0
+        backgroundColor: Colors.white,
+        elevation: 0.0,
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () {
             Navigator.of(context).pop();
           },
-        ), toolbarTextStyle: TextTheme(
-          titleLarge: TextStyle(color: Colors.black), // Set the text color to black
-        ).bodyMedium, titleTextStyle: TextTheme(
-          titleLarge: TextStyle(color: Colors.black), // Set the text color to black
-        ).titleLarge,
-      ),
-      body: SafeArea(
-        child: Center(
-          child: Text('Profile Page Content'),
         ),
       ),
-      bottomNavigationBar: BottomAppBar(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      body: SafeArea(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                IconButton(
-                  onPressed: () {
-                    _showStartScreen(context);
-                  },
-                  icon: Icon(
-                    Icons.home,
-                    color: Colors.black,
-                  ),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Text(
+                'Hello ${UserController.user?.displayName ?? ''}',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
                 ),
-                const Text(
-                  'Home',
-                  style: TextStyle(
-                    color: Colors.black,
-                  ),
-                ),
-              ],
+              ),
             ),
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                IconButton(
-                  onPressed: () {
-                    // Handle settings icon click
-                    _showSettingsDialog(context);
-                  },
-                  icon: Icon(
-                    Icons.settings,
-                    color: Colors.black,
+            Expanded(
+              child: ListView(
+                children: [
+                  _buildProfileOption(
+                    context: context, // Pass the context directly
+                    icon: Icons.history,
+                    label: 'My Workout History',
+                    onTap: () {
+                      _navigateToHistoryScreen(context);
+                    },
                   ),
-                ),
-                const Text(
-                  'Settings',
-                  style: TextStyle(
-                    color: Colors.black,
+                  _buildProfileOption(
+                    context: context, // Pass the context directly
+                    icon: Icons.settings,
+                    label: 'Settings',
+                    onTap: () {
+                      _showSettingsDialog(context);
+                    },
                   ),
-                ),
-              ],
-            ),
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                IconButton(
-                  onPressed: () {
-                    // Handle profile icon click
-                  },
-                  icon: const Icon(
-                    Icons.person,
-                    color: Colors.orange,
+                  _buildProfileOption(
+                    context: context, // Pass the context directly
+                    icon: Icons.exit_to_app,
+                    label: 'Logout',
+                    onTap: () {
+                      _signOutAndNavigateToStartScreen(context);
+                    },
                   ),
-                ),
-                const Text(
-                  'Profile',
-                  style: TextStyle(
-                    color: Colors.orange,
-                  ),
-                ),
-              ],
+                  // Add more options as needed
+                ],
+              ),
             ),
           ],
         ),
       ),
+      bottomNavigationBar: CustomBottomBar(
+        onHomePressed: () {
+          _showStartScreen(context);
+        },
+        onSettingsPressed: () {
+          _showSettingsDialog(context);
+        },
+        onProfilePressed: () {
+          // Do nothing, as you are already on the profile page
+        },
+      ),
     );
   }
 
-  Widget buildClickableTextWithIcon({
+  Widget _buildProfileOption({
+    required BuildContext context,
     required IconData icon,
-    required String text,
+    required String label,
     required VoidCallback onTap,
   }) {
-    return InkWell(
-      onTap: onTap,
-      child: Column(
-        children: [
-          Icon(icon, color: Colors.black),
-          SizedBox(height: 10), // Removed 'const' here
-          Text(
-            text,
-            style: const TextStyle(
-              color: Colors.black,
-              fontSize: 18,
-            ),
-          ),
-        ],
-      ),
+    return ListTile(
+      leading: Icon(icon),
+      title: Text(label),
+      onTap: () {
+        if (label == 'My Workout History') {
+          _navigateToHistoryScreen(context);
+        } else {
+          onTap();
+        }
+      },
+    );
+  }
+
+  void _navigateToHistoryScreen(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => HistoryScreen()),
+    );
+  }
+
+  void _signOutAndNavigateToStartScreen(BuildContext context) async {
+    await UserController().signOut();
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(builder: (context) => const MyHomePage()),
+          (route) => false,
     );
   }
 
@@ -133,6 +130,60 @@ class ProfilePage extends StatelessWidget {
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => const StartScreen()),
+    );
+  }
+}
+
+class CustomBottomBar extends StatelessWidget {
+  final VoidCallback onHomePressed;
+  final VoidCallback onSettingsPressed;
+  final VoidCallback onProfilePressed;
+
+  const CustomBottomBar({
+    Key? key,
+    required this.onHomePressed,
+    required this.onSettingsPressed,
+    required this.onProfilePressed,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 110,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            spreadRadius: 1,
+            blurRadius: 10,
+            offset: const Offset(0, -1),
+          ),
+        ],
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              IconButton(
+                onPressed: onHomePressed,
+                icon: const Icon(
+                  Icons.home,
+                  color: Colors.black,
+                ),
+              ),
+              const Text(
+                'Home',
+                style: TextStyle(
+                  color: Colors.black,
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }

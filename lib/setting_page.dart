@@ -6,7 +6,7 @@ import 'profile_page.dart';
 import 'start_screen.dart';
 
 class SettingsPage extends StatelessWidget {
-  const SettingsPage({super.key});
+  const SettingsPage({Key? key});
 
   @override
   Widget build(BuildContext context) {
@@ -40,95 +40,16 @@ class SettingsPage extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: BottomAppBar(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                IconButton(
-                  onPressed: () {
-                    _showStartScreen(context);
-                  },
-                  icon: const Icon(
-                    Icons.home,
-                    color: Colors.black,
-                  ),
-                ),
-                const Text(
-                  'Home',
-                  style: TextStyle(
-                    color: Colors.black,
-                  ),
-                ),
-              ],
-            ),
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                IconButton(
-                  onPressed: () {
-
-                  },
-                  icon: const Icon(
-                    Icons.settings,
-                    color: Colors.orange,
-                  ),
-                ),
-                const Text(
-                  'Settings',
-                  style: TextStyle(
-                    color: Colors.orange,
-                  ),
-                ),
-              ],
-            ),
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                IconButton(
-                  onPressed: () {
-                    _showProfilePage(context);
-                  },
-                  icon: const Icon(
-                    Icons.person,
-                    color: Colors.black,
-                  ),
-                ),
-                const Text(
-                  'Profile',
-                  style: TextStyle(
-                    color: Colors.black,
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget buildClickableTextWithIcon({
-    required IconData icon,
-    required String text,
-    required VoidCallback onTap,
-  }) {
-    return InkWell(
-      onTap: onTap,
-      child: Column(
-        children: [
-          Icon(icon, color: Colors.black),
-          const SizedBox(height: 10), // Removed 'const' here
-          Text(
-            text,
-            style: const TextStyle(
-              color: Colors.black,
-              fontSize: 18,
-            ),
-          ),
-        ],
+      bottomNavigationBar: CustomBottomBar(
+        onHomePressed: () {
+          _showStartScreen(context);
+        },
+        onSettingsPressed: () {
+          // Do nothing, as you are already on the settings page
+        },
+        onProfilePressed: () {
+          _showProfilePage(context);
+        },
       ),
     );
   }
@@ -148,6 +69,95 @@ class SettingsPage extends StatelessWidget {
   }
 }
 
+class CustomBottomBar extends StatelessWidget {
+  final VoidCallback onHomePressed;
+  final VoidCallback onSettingsPressed;
+  final VoidCallback onProfilePressed;
+
+  const CustomBottomBar({
+    Key? key,
+    required this.onHomePressed,
+    required this.onSettingsPressed,
+    required this.onProfilePressed,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 110,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            spreadRadius: 1,
+            blurRadius: 10,
+            offset: const Offset(0, -1),
+          ),
+        ],
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              IconButton(
+                onPressed: onHomePressed,
+                icon: const Icon(
+                  Icons.home,
+                  color: Colors.black,
+                ),
+              ),
+              const Text(
+                'Home',
+                style: TextStyle(
+                  color: Colors.black,
+                ),
+              ),
+            ],
+          ),
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              IconButton(
+                onPressed: onSettingsPressed,
+                icon: const Icon(
+                  Icons.settings,
+                  color: Colors.orange,
+                ),
+              ),
+              const Text(
+                'Settings',
+                style: TextStyle(
+                  color: Colors.orange,
+                ),
+              ),
+            ],
+          ),
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              IconButton(
+                onPressed: onProfilePressed,
+                icon: const Icon(
+                  Icons.person,
+                  color: Colors.black,
+                ),
+              ),
+              const Text(
+                'Profile',
+                style: TextStyle(
+                  color: Colors.black,
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
 
 class ThemeNotifier with ChangeNotifier {
   bool _isDarkModeEnabled = false;

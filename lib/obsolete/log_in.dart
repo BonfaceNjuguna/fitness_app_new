@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:newfitnessapp/user_controller.dart';
 import 'get_started.dart';
-import 'start_screen.dart';
+import '../start_screen.dart';
 
 class LogInScreen extends StatelessWidget {
   const LogInScreen({super.key});
@@ -53,11 +55,26 @@ class LogInScreen extends StatelessWidget {
                   context: context,
                   label: 'Google',
                   imageAssetPath: 'assets/google_logo.png',
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const StartScreen()),
-                    );
+                  onPressed: () async {
+                    try{
+                      final user = await UserController.loginWithGoogle();
+
+                      if(user != null){
+                        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const StartScreen()));
+                      }
+                    } on FirebaseAuthException catch (e){
+                      print(e.message);
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text(
+                            e.message ?? "Something went wrong",
+                          )));
+                    } catch (e){
+                      print(e);
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text(
+                            e.toString(),
+                          )));
+                    }
                   },
                 ),
                 const SizedBox(height: 10),

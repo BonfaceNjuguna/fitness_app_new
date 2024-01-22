@@ -1,31 +1,32 @@
 import 'package:flutter/material.dart';
 
+import 'base/exercise.dart';
 import 'exercises_page.dart';
 import 'profile_page.dart';
 import 'setting_page.dart';
 import 'start_screen.dart';
+
+class ReformerExercise extends Exercise {
+  ReformerExercise({
+    required String name,
+    required String focus,
+    required String equipment,
+    required String imageAsset,
+    required String videoUrl,
+  }) : super(
+    name: name,
+    focus: focus,
+    equipment: equipment,
+    imageAsset: imageAsset,
+    videoUrl: videoUrl,
+  );
+}
 
 class ReformerScreen extends StatefulWidget {
   const ReformerScreen({Key? key}) : super(key: key);
 
   @override
   State<ReformerScreen> createState() => _ReformerScreenState();
-}
-
-class Exercise {
-  final String name;
-  final String focus;
-  final String equipment;
-  final String imageAsset;
-  final String videoUrl;
-
-  Exercise({
-    required this.name,
-    required this.focus,
-    required this.equipment,
-    required this.imageAsset,
-    required this.videoUrl,
-  });
 }
 
 class _ReformerScreenState extends State<ReformerScreen> {
@@ -312,72 +313,74 @@ class _ReformerScreenState extends State<ReformerScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: BottomAppBar(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                IconButton(
-                  onPressed: () {
-                    _showStartScreen(context);
-                  },
-                  icon: const Icon(
-                    Icons.home,
-                    color: Colors.black,
+      bottomNavigationBar: Container(
+        height: 110, // Adjust the height as needed
+        child: BottomAppBar(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  IconButton(
+                    onPressed: () {
+                      _showStartScreen(context);
+                    },
+                    icon: const Icon(
+                      Icons.home,
+                      color: Colors.black,
+                    ),
                   ),
-                ),
-                const Text(
-                  'Home',
-                  style: TextStyle(
-                    color: Colors.black,
+                  const Text(
+                    'Home',
+                    style: TextStyle(
+                      color: Colors.black,
+                    ),
                   ),
-                ),
-              ],
-            ),
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                IconButton(
-                  onPressed: () {
-                    // Handle settings icon click
-                    _showSettingsDialog(context);
-                  },
-                  icon: const Icon(
-                    Icons.settings,
-                    color: Colors.black,
+                ],
+              ),
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  IconButton(
+                    onPressed: () {
+                      _showSettingsDialog(context);
+                    },
+                    icon: const Icon(
+                      Icons.settings,
+                      color: Colors.black,
+                    ),
                   ),
-                ),
-                const Text(
-                  'Settings',
-                  style: TextStyle(
-                    color: Colors.black,
+                  const Text(
+                    'Settings',
+                    style: TextStyle(
+                      color: Colors.black,
+                    ),
                   ),
-                ),
-              ],
-            ),
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                IconButton(
-                  onPressed: () {
-                    _showProfileDialog(context);
-                  },
-                  icon: const Icon(
-                    Icons.person,
-                    color: Colors.black,
+                ],
+              ),
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  IconButton(
+                    onPressed: () {
+                      _showProfileDialog(context);
+                    },
+                    icon: const Icon(
+                      Icons.person,
+                      color: Colors.black,
+                    ),
                   ),
-                ),
-                const Text(
-                  'Profile',
-                  style: TextStyle(
-                    color: Colors.black,
+                  const Text(
+                    'Profile',
+                    style: TextStyle(
+                      color: Colors.black,
+                    ),
                   ),
-                ),
-              ],
-            ),
-          ],
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

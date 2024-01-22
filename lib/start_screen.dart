@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:newfitnessapp/cardio.dart';
+import 'package:newfitnessapp/user_controller.dart';
 
 import 'personalised_routine.dart';
 import 'profile_page.dart';
@@ -13,183 +15,248 @@ class StartScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Check user authentication status before accessing user data
+    if (UserController.user == null) {
+      // User not authenticated, handle accordingly
+      return Scaffold(
+        body: Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
+
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Padding(
-        padding: const EdgeInsets.only(bottom: 30.0),
+      body: SafeArea(
         child: SingleChildScrollView(
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10.0),
-            alignment: Alignment.center,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                const SizedBox(height: 70),
-                Row(
-                  children: [
-                    const CircleAvatar(
-                      radius: 30,
-                      backgroundImage: AssetImage('assets/profile_image.jpeg'),
-                    ),
-                    const SizedBox(width: 30), // Add space between the profile image and text
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          'Hello Isaya!',
-                          style: TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              const SizedBox(height: 70),
+              Row(
+                children: [
+                  CircleAvatar(
+                    radius: 30,
+                    foregroundImage: NetworkImage(UserController.user?.photoURL ?? ''),
+                  ),
+                  const SizedBox(width: 30),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Hello ${UserController.user?.displayName ?? ''}',
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
                         ),
-                        const SizedBox(height: 10), // Add some space between the text widgets
-                        Text(
-                          formatDateAndTime(DateTime.now()), // Format and display custom date and time
-                          style: const TextStyle(
-                            fontSize: 18,
+                      ),
+                      const SizedBox(height: 10),
+                      Text(
+                        formatDateAndTime(DateTime.now()),
+                        style: const TextStyle(
+                          fontSize: 18,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              const SizedBox(height: 30),
+              Container(
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFE8EBEA),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Row(
+                  children: [
+                    const Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Refresh body with',
+                            style: TextStyle(
+                              fontSize: 20,
+                              color: Colors.black,
+                            ),
                           ),
+                          Text(
+                            'exercise',
+                            style: TextStyle(
+                              fontSize: 20,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(width: 20),
+                    Image.asset(
+                      'assets/weightlifter.png',
+                      width: 150,
+                      height: 150,
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 30),
+              Container(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Padding(
+                      padding: EdgeInsets.only(left: 20),
+                      child: Text(
+                        'Categories',
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        buildClickableTextWithImage(
+                          image: const AssetImage('assets/personalised_routine/personalised_routine_icon.png'),
+                          text: 'Personalised\n     Routine',
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const PersonalisedRoutineScreen(),
+                              ),
+                            );
+                          },
+                        ),
+                        buildClickableTextWithImage(
+                          image: const AssetImage('assets/reformer/reformer_icon.png'),
+                          text: 'Reformer\n  ',
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const ReformerScreen(),
+                              ),
+                            );
+                          },
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 20),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        buildClickableTextWithImage(
+                          image: const AssetImage('assets/strength/strength_icon.png'),
+                          text: 'Strength',
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const StrengthScreen(),
+                              ),
+                            );
+                          },
+                        ),
+                        buildClickableTextWithImage(
+                          image: const AssetImage('assets/stretching/stretching_icon.png'),
+                          text: 'Stretching',
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const StretchingScreen(),
+                              ),
+                            );
+                          },
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 20),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        buildClickableTextWithImage(
+                          image: const AssetImage('assets/cardio/cardio.png'), // Specify the image for cardio
+                          text: 'Cardio', // Specify the text for cardio
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const CardioScreen(), // Redirect to CardioPage
+                              ),
+                            );
+                          },
                         ),
                       ],
                     ),
                   ],
                 ),
-
-                const SizedBox(height: 30), // Add space below the existing content
-                Container(
-                  padding: const EdgeInsets.all(20),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFE8EBEA), // Use color #E8EBEA for the background
-                    borderRadius: BorderRadius.circular(10), // Rounded border radius
-                  ),
-                  child: Row(
-                    children: [
-                      const Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Refresh body with',
-                              style: TextStyle(
-                                fontSize: 20,
-                                color: Colors.black, // Black text color
-                              ),
-                            ),
-                            Text(
-                              'exercise',
-                              style: TextStyle(
-                                fontSize: 20,
-                                color: Colors.black, // Black text color
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(width: 20), // Add space between the text and image
-                      Image.asset(
-                        'assets/weightlifter.png', // Replace with your image path
-                        width: 150, // Adjust image width as needed
-                        height: 150, // Adjust image height as needed
-                      ),
-                    ],
-                  ),
-                ),
-
-                const SizedBox(height: 30),
-                Container(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start, // Align text to the left
-                    children: [
-                      const Padding(
-                        padding: EdgeInsets.only(left: 20), // Add left padding to "Categories" text
-                        child: Text(
-                          'Categories',
-                          style: TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 20), // Add vertical spacing
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly, // Add spacing between columns
-                        children: [
-                          buildClickableTextWithImage(
-                            image: const AssetImage('assets/personalised_routine/personalised_routine_icon.png'), // Replace with your image asset
-                            text: 'Personalised\n     Routine',
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const PersonalisedRoutineScreen(),
-                                ),
-                              );
-                            },
-                          ),
-                          buildClickableTextWithImage(
-                            image: const AssetImage('assets/reformer/reformer_icon.png'), // Replace with your image asset
-                            text: 'Reformer\n  ',
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const ReformerScreen(),
-                                ),
-                              );
-                            },
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 20), // Add vertical spacing
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly, // Add spacing between columns
-                        children: [
-                          buildClickableTextWithImage(
-                            image: const AssetImage('assets/strength/strength_icon.png'), // Replace with your image asset
-                            text: 'Strength',
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const StrengthScreen(),
-                                ),
-                              );
-                            },
-                          ),
-                          buildClickableTextWithImage(
-                            image: const AssetImage('assets/stretching/stretching_icon.png'), // Replace with your image asset
-                            text: 'Stretching',
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const StretchingScreen(),
-                                ),
-                              );
-                            },
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                )
-              ],
-            ),
+              ),
+              // Add more widgets as needed
+            ],
           ),
         ),
       ),
-      bottomNavigationBar: BottomAppBar(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Column(
+      bottomNavigationBar: Container(
+        height: 110, // Adjust the height as needed
+        child: CustomBottomBar(),
+      ), // Using the custom bottom bar
+    );
+  }
+
+  String formatDateAndTime(DateTime dateTime) {
+    final DateFormat formatter = DateFormat('EEEE, d MMMM y');
+    final String formattedDate = formatter.format(dateTime);
+    return formattedDate;
+  }
+
+  Widget buildClickableTextWithImage({
+    required AssetImage image,
+    required String text,
+    required VoidCallback onTap,
+  }) {
+    return InkWell(
+      onTap: onTap,
+      child: Column(
+        children: [
+          Image(
+            image: image,
+            width: 80,
+            height: 80,
+          ),
+          const SizedBox(height: 20),
+          Text(
+            text,
+            style: const TextStyle(
+              color: Colors.black,
+              fontSize: 18,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class CustomBottomBar extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BottomAppBar(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Expanded(
+            child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 IconButton(
-                  onPressed: () {
-
-                  },
+                  onPressed: () {},
                   icon: const Icon(
                     Icons.home,
                     color: Colors.orange,
@@ -203,12 +270,13 @@ class StartScreen extends StatelessWidget {
                 ),
               ],
             ),
-            Column(
+          ),
+          Expanded(
+            child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 IconButton(
                   onPressed: () {
-                    // Handle settings icon click
                     _showSettingsDialog(context);
                   },
                   icon: const Icon(
@@ -224,7 +292,9 @@ class StartScreen extends StatelessWidget {
                 ),
               ],
             ),
-            Column(
+          ),
+          Expanded(
+            child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 IconButton(
@@ -244,40 +314,6 @@ class StartScreen extends StatelessWidget {
                 ),
               ],
             ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  String formatDateAndTime(DateTime dateTime) {
-    final DateFormat formatter = DateFormat('EEEE, d MMMM y');
-    final String formattedDate = formatter.format(dateTime);
-    return formattedDate;
-  }
-
-  // Function to build clickable text with an image
-  Widget buildClickableTextWithImage({
-    required AssetImage image,
-    required String text,
-    required VoidCallback onTap,
-  }) {
-    return InkWell(
-      onTap: onTap,
-      child: Column(
-        children: [
-          Image(
-            image: image,
-            width: 80, // Adjust image width as needed
-            height: 80, // Adjust image height as needed
-          ),
-          const SizedBox(height: 10),
-          Text(
-            text,
-            style: const TextStyle(
-              color: Colors.black,
-              fontSize: 18,
-            ),
           ),
         ],
       ),
@@ -290,6 +326,7 @@ class StartScreen extends StatelessWidget {
       MaterialPageRoute(builder: (context) => const SettingsPage()),
     );
   }
+
   void _showProfileDialog(BuildContext context) {
     Navigator.push(
       context,

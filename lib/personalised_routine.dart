@@ -1,127 +1,176 @@
 import 'package:flutter/material.dart';
-import 'start_screen.dart';
+
 import 'profile_page.dart';
 import 'setting_page.dart';
+import 'start_screen.dart';
 
 class PersonalisedRoutineScreen extends StatefulWidget {
   const PersonalisedRoutineScreen({Key? key}) : super(key: key);
 
   @override
-  State<PersonalisedRoutineScreen> createState() => _PersonalisedRoutineScreen();
+  State<PersonalisedRoutineScreen> createState() =>
+      _PersonalisedRoutineScreenState();
 }
 
-class _PersonalisedRoutineScreen extends State<PersonalisedRoutineScreen> {
+class _PersonalisedRoutineScreenState extends State<PersonalisedRoutineScreen> {
+  int totalTime = 0;
+  int timePerSequence = 0;
+  int restTime = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white, // Set your desired app bar color
-        elevation: 0.0, // Set elevation to 0.0 for no shadow
+        backgroundColor: Colors.white,
+        elevation: 0.0,
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back,
-            color: Colors.black, // Set the arrow color to black
+            color: Colors.black,
           ),
           onPressed: () {
             Navigator.of(context).pop();
           },
         ),
       ),
-      body: const Center(
-        child: Text('PR Screen'),
-      ),
-      bottomNavigationBar: BottomAppBar(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                IconButton(
-                  onPressed: () {
-                    _showStartScreen(context);
-                  },
-                  icon: const Icon(
-                    Icons.home,
-                    color: Colors.black,
-                  ),
-                ),
-                const Text(
-                  'Home',
-                  style: TextStyle(
-                    color: Colors.black,
-                  ),
-                ),
-              ],
+            _buildInputField(
+              label: 'Total Time (minutes)',
+              onChanged: (value) {
+                setState(() {
+                  totalTime = int.tryParse(value) ?? 0;
+                });
+              },
             ),
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                IconButton(
-                  onPressed: () {
-                    // Handle settings icon click
-                    _showSettingsDialog(context);
-                  },
-                  icon: const Icon(
-                    Icons.settings,
-                    color: Colors.black,
-                  ),
-                ),
-                const Text(
-                  'Settings',
-                  style: TextStyle(
-                    color: Colors.black,
-                  ),
-                ),
-              ],
+            _buildInputField(
+              label: 'Time Per Sequence (seconds)',
+              onChanged: (value) {
+                setState(() {
+                  timePerSequence = int.tryParse(value) ?? 0;
+                });
+              },
             ),
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                IconButton(
-                  onPressed: () {
-                    _showProfileDialog(context);
-                  },
-                  icon: const Icon(
-                    Icons.person,
-                    color: Colors.black,
-                  ),
-                ),
-                const Text(
-                  'Profile',
-                  style: TextStyle(
-                    color: Colors.black,
-                  ),
-                ),
-              ],
+            _buildInputField(
+              label: 'Rest Time (seconds)',
+              onChanged: (value) {
+                setState(() {
+                  restTime = int.tryParse(value) ?? 0;
+                });
+              },
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                // Logic to generate routine based on input
+                _generateRoutine();
+              },
+              child: Text('Generate Routine'),
             ),
           ],
+        ),
+      ),
+      bottomNavigationBar: Container(
+        height: 110, // Adjust the height as needed
+        child: BottomAppBar(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  IconButton(
+                    onPressed: () {
+                      _showStartScreen(context);
+                    },
+                    icon: const Icon(
+                      Icons.home,
+                      color: Colors.black,
+                    ),
+                  ),
+                  const Text(
+                    'Home',
+                    style: TextStyle(
+                      color: Colors.black,
+                    ),
+                  ),
+                ],
+              ),
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  IconButton(
+                    onPressed: () {
+                      // Handle settings icon click
+                      _showSettingsDialog(context);
+                    },
+                    icon: const Icon(
+                      Icons.settings,
+                      color: Colors.black,
+                    ),
+                  ),
+                  const Text(
+                    'Settings',
+                    style: TextStyle(
+                      color: Colors.black,
+                    ),
+                  ),
+                ],
+              ),
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  IconButton(
+                    onPressed: () {
+                      _showProfileDialog(context);
+                    },
+                    icon: const Icon(
+                      Icons.person,
+                      color: Colors.black,
+                    ),
+                  ),
+                  const Text(
+                    'Profile',
+                    style: TextStyle(
+                      color: Colors.black,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 
-  Widget buildClickableTextWithIcon({
-    required IconData icon,
-    required String text,
-    required VoidCallback onTap,
+  Widget _buildInputField({
+    required String label,
+    required void Function(String) onChanged,
   }) {
-    return InkWell(
-      onTap: onTap,
-      child: Column(
-        children: [
-          Icon(icon, color: Colors.black),
-          const SizedBox(height: 10),
-          Text(
-            text,
-            style: const TextStyle(
-              color: Colors.black,
-              fontSize: 18,
-            ),
-          ),
-        ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: TextField(
+        keyboardType: TextInputType.number,
+        decoration: InputDecoration(
+          labelText: label,
+          border: OutlineInputBorder(),
+        ),
+        onChanged: onChanged,
       ),
     );
+  }
+
+  void _generateRoutine() {
+    // Implement logic to generate routine based on input
+    print('Generating Routine...');
+    print('Total Time: $totalTime minutes');
+    print('Time Per Sequence: $timePerSequence seconds');
+    print('Rest Time: $restTime seconds');
+    // Add your logic here
   }
 
   void _showStartScreen(BuildContext context) {

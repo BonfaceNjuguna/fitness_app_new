@@ -1,33 +1,37 @@
 import 'package:flutter/material.dart';
+import 'package:newfitnessapp/base/exercise.dart';
 import 'exercises_page.dart';
 import 'profile_page.dart';
 import 'setting_page.dart';
 import 'start_screen.dart';
 
+class StrengthExercise extends Exercise {
+  final String subcategory;
+
+  StrengthExercise({
+    required String name,
+    required String focus,
+    required String equipment,
+    required String imageAsset,
+    required String videoUrl,
+    required this.subcategory,
+  }) : super(
+    name: name,
+    focus: focus,
+    equipment: equipment,
+    imageAsset: imageAsset,
+    videoUrl: videoUrl,
+  );
+}
+
 class StrengthScreen extends StatefulWidget {
   const StrengthScreen({Key? key}) : super(key: key);
 
   @override
-  State<StrengthScreen> createState() => _StrengthScreenState();
+  _StrengthScreenState createState() => _StrengthScreenState();
 }
 
-class StrengthExercise {
-  final String name;
-  final String focus;
-  final String equipment;
-  final String imageAsset;
-  final String videoUrl;
-
-  StrengthExercise({
-    required this.name,
-    required this.focus,
-    required this.equipment,
-    required this.imageAsset,
-    required this.videoUrl,
-  });
-}
-
-class _StrengthScreenState extends State<StrengthScreen> {
+  class _StrengthScreenState extends State<StrengthScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,185 +65,194 @@ class _StrengthScreenState extends State<StrengthScreen> {
               const SizedBox(height: 10),
               buildCategorySection(
                 categoryTitle: 'With Equipment',
+                subcategories: ['Glutes', 'Thighs', 'Back'],
                 exercises: [
-                  bentOverRow,
-                  bicepCurls,
-                  hammerCurls,
-                  inclineChest,
-                  overheadShoulderPress,
-                  reverseDumbbellFlies,
-                  shoulderShrug,
-                  skullCrusher,
-                  tricepsDips,
-                  trxRows,
+                  bulgarianSplitSquats,
+                  goodMornings,
+                  hipThrusts,
+                  legPushBack,
+                  romanianDeadlift,
+                  singleLegFluteBridge,
+                  splitSquats,
+                  sumoSquats,
+                  standingFireHydrant,
                 ],
               ),
               const SizedBox(height: 20),
               buildCategorySection(
                 categoryTitle: 'Without Equipment',
-                exercises: [pushUp],
+                subcategories: ['Glutes'],
+                exercises: [
+                  standingLunge,
+
+                ],
               ),
             ],
           ),
         ),
       ),
-      bottomNavigationBar: BottomAppBar(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                IconButton(
-                  onPressed: () {
-                    _showStartScreen(context);
-                  },
-                  icon: const Icon(
-                    Icons.home,
-                    color: Colors.black,
+      bottomNavigationBar: Container(
+        height: 110, // Adjust the height as needed
+        child: BottomAppBar(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  IconButton(
+                    onPressed: () {
+                      _showStartScreen(context);
+                    },
+                    icon: const Icon(
+                      Icons.home,
+                      color: Colors.black,
+                    ),
                   ),
-                ),
-                const Text(
-                  'Home',
-                  style: TextStyle(
-                    color: Colors.black,
+                  const Text(
+                    'Home',
+                    style: TextStyle(
+                      color: Colors.black,
+                    ),
                   ),
-                ),
-              ],
-            ),
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                IconButton(
-                  onPressed: () {
-                    // Handle settings icon click
-                    _showSettingsDialog(context);
-                  },
-                  icon: const Icon(
-                    Icons.settings,
-                    color: Colors.black,
+                ],
+              ),
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  IconButton(
+                    onPressed: () {
+                      // Handle settings icon click
+                      _showSettingsDialog(context);
+                    },
+                    icon: const Icon(
+                      Icons.settings,
+                      color: Colors.black,
+                    ),
                   ),
-                ),
-                const Text(
-                  'Settings',
-                  style: TextStyle(
-                    color: Colors.black,
+                  const Text(
+                    'Settings',
+                    style: TextStyle(
+                      color: Colors.black,
+                    ),
                   ),
-                ),
-              ],
-            ),
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                IconButton(
-                  onPressed: () {
-                    _showProfileDialog(context);
-                  },
-                  icon: const Icon(
-                    Icons.person,
-                    color: Colors.black,
+                ],
+              ),
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  IconButton(
+                    onPressed: () {
+                      _showProfileDialog(context);
+                    },
+                    icon: const Icon(
+                      Icons.person,
+                      color: Colors.black,
+                    ),
                   ),
-                ),
-                const Text(
-                  'Profile',
-                  style: TextStyle(
-                    color: Colors.black,
+                  const Text(
+                    'Profile',
+                    style: TextStyle(
+                      color: Colors.black,
+                    ),
                   ),
-                ),
-              ],
-            ),
-          ],
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 
-  StrengthExercise bentOverRow = StrengthExercise(
-    name: 'Bent over row',
+  StrengthExercise bulgarianSplitSquats = StrengthExercise(
+    name: 'Bulgarian Split Squats',
+    focus: 'Glutes',
+    equipment: 'Dumbbells',
+    imageAsset: 'assets/strength/Bulgarian_split_squat.png',
+    videoUrl: 'assets/strength/Bulgarian_split_squat.mp4',
+    subcategory: 'Glutes',
+  );
+
+  StrengthExercise goodMornings = StrengthExercise(
+    name: 'Good Mornings',
     focus: 'Back',
     equipment: 'Dumbbells',
-    imageAsset: 'assets/reformer/Bent_over_row_thumbnail.png',
-    videoUrl: 'assets/reformer/Bent_over_row_video.mp4',
+    imageAsset: 'assets/strength/Good_mornings.png',
+    videoUrl: 'assets/strength/Good_mornings.mp4',
+    subcategory: 'Back',
   );
 
-  StrengthExercise bicepCurls = StrengthExercise(
-    name: 'Bicep curls',
-    focus: 'Biceps',
+  StrengthExercise hipThrusts = StrengthExercise(
+    name: 'Hip Thrusts',
+    focus: 'Glutes',
     equipment: 'Dumbbells',
-    imageAsset: 'assets/reformer/Bicep_curls_thumbnail.png',
-    videoUrl: 'assets/reformer/Bicep_curls_video.mp4',
+    imageAsset: 'assets/strength/Hip_thrusts.png',
+    videoUrl: 'assets/strength/Hip_thrusts.mp4',
+    subcategory: 'Glutes',
   );
 
-  StrengthExercise hammerCurls = StrengthExercise(
-    name: 'Hammer curls',
-    focus: 'Biceps',
+  StrengthExercise legPushBack = StrengthExercise(
+    name: 'Leg Push Back',
+    focus: 'Glutes',
+    equipment: 'name',
+    imageAsset: 'assets/strength/Leg_push_back.png',
+    videoUrl: 'assets/strength/Leg_push_back.mp4',
+    subcategory: 'Glutes',
+  );
+
+  StrengthExercise romanianDeadlift = StrengthExercise(
+    name: 'Romanian Deadlift',
+    focus: 'Glutes',
     equipment: 'Dumbbells',
-    imageAsset: 'assets/reformer/Hammer_curls_thumbnail.png',
-    videoUrl: 'assets/reformer/Hammer_curls_video.mp4',
+    imageAsset: 'assets/strength/Romanian_deadlift.png',
+    videoUrl: 'assets/strength/Romanian_deadlift.mp4',
+    subcategory: 'Glutes',
   );
 
-  StrengthExercise inclineChest = StrengthExercise(
-    name: 'Incline chest press',
-    focus: 'Chest',
+  StrengthExercise singleLegFluteBridge = StrengthExercise(
+    name: 'Single Leg Flute Bridge',
+    focus: 'Glutes',
     equipment: 'Dumbbells',
-    imageAsset: 'assets/reformer/Incline_chest_press_thumbnail.png',
-    videoUrl: 'assets/reformer/Incline_chest_press_video.mp4',
+    imageAsset: 'assets/strength/Single_leg_flute_bridge.png',
+    videoUrl: 'assets/strength/Single_leg_flute_bridge.mp4',
+    subcategory: 'Glutes',
   );
 
-  StrengthExercise overheadShoulderPress = StrengthExercise(
-    name: 'Overhead shoulder press',
-    focus: 'Shoulders',
+  StrengthExercise splitSquats = StrengthExercise(
+    name: 'Split Squats',
+    focus: 'Glutes',
     equipment: 'Dumbbells',
-    imageAsset: 'assets/reformer/Overheard_shoulder_press_thumbnail.png',
-    videoUrl: 'assets/reformer/Overheard_shoulder_press_video.mp4',
+    imageAsset: 'assets/strength/Split_squats.png',
+    videoUrl: 'assets/strength/Split_squats.mp4',
+    subcategory: 'Glutes',
   );
 
-  StrengthExercise pushUp = StrengthExercise(
-    name: 'Push up',
-    focus: 'Chest',
+  StrengthExercise standingFireHydrant = StrengthExercise(
+    name: 'Standing Fire Hydrants',
+    focus: 'Thighs',
+    equipment: 'Dumbbells',
+    imageAsset: 'assets/strength/Standing_fire_hydrants.png',
+    videoUrl: 'assets/strength/Standing_fire_hydrants.mp4',
+    subcategory: 'Thighs',
+  );
+
+  StrengthExercise standingLunge = StrengthExercise(
+    name: 'Standing Lunge',
+    focus: 'Glutes',
     equipment: 'None',
-    imageAsset: 'assets/reformer/Push_up_thumbnail.png',
-    videoUrl: 'assets/reformer/Push_up_video.mp4',
+    imageAsset: 'assets/strength/Standing_lunge.png',
+    videoUrl: 'assets/strength/Standing_lunge.mp4',
+    subcategory: 'Glutes',
   );
 
-  StrengthExercise reverseDumbbellFlies = StrengthExercise(
-    name: 'Reverse dumbbell flies',
-    focus: 'Back',
+  StrengthExercise sumoSquats = StrengthExercise(
+    name: 'Sumo Squats',
+    focus: 'Glutes',
     equipment: 'Dumbbells',
-    imageAsset: 'assets/reformer/Reverse_dumbbell_flies_thumbnail.png',
-    videoUrl: 'assets/reformer/Reverse_dumbbell_flies_video.mp4',
-  );
-
-  StrengthExercise shoulderShrug = StrengthExercise(
-    name: 'Shoulder shrug',
-    focus: 'Shoulders',
-    equipment: 'Dumbbells',
-    imageAsset: 'assets/reformer/Shoulder_shrug_thumbnail.png',
-    videoUrl: 'assets/reformer/Shoulder_shrug_video.mp4',
-  );
-
-  StrengthExercise skullCrusher = StrengthExercise(
-    name: 'Skull crusher',
-    focus: 'Triceps',
-    equipment: 'Dumbbells',
-    imageAsset: 'assets/reformer/Skull_crusher_thumbnail.png',
-    videoUrl: 'assets/reformer/Skull_crusher_video.mp4',
-  );
-
-  StrengthExercise tricepsDips = StrengthExercise(
-    name: 'Triceps dips',
-    focus: 'Triceps',
-    equipment: 'Parallel bars',
-    imageAsset: 'assets/reformer/Triceps_dips_thumbnail.png',
-    videoUrl: 'assets/reformer/Triceps_dips_video.mp4',
-  );
-
-  StrengthExercise trxRows = StrengthExercise(
-    name: 'TRX rows',
-    focus: 'Back',
-    equipment: 'TRX straps',
-    imageAsset: 'assets/reformer/TRX_rows_thumbnail.png',
-    videoUrl: 'assets/reformer/TRX_rows_video.mp4',
+    imageAsset: 'assets/strength/Sumo_squats.png',
+    videoUrl: 'assets/strength/Sumo_squats.mp4',
+    subcategory: 'Glutes',
   );
 
   void _showStartScreen(BuildContext context) {
@@ -263,8 +276,18 @@ class _StrengthScreenState extends State<StrengthScreen> {
     );
   }
 
+  void _showExerciseDetails(BuildContext context, StrengthExercise exercise) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ExercisesScreen(exercise: exercise),
+      ),
+    );
+  }
+
   Widget buildCategorySection({
     required String categoryTitle,
+    required List<String> subcategories,
     required List<StrengthExercise> exercises,
   }) {
     return Column(
@@ -281,17 +304,42 @@ class _StrengthScreenState extends State<StrengthScreen> {
         const SizedBox(height: 10),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: exercises.map((exercise) {
-            return buildExerciseCard(
-              exercise: exercise,
-              onTap: () {
-                /*Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ExercisesScreen(exercise: exercise),
+          children: subcategories.map((subcategory) {
+            final subcategoryExercises = exercises.where((exercise) => exercise.subcategory == subcategory).toList();
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  subcategory,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
                   ),
-                );*/
-              },
+                ),
+                const SizedBox(height: 10),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: subcategoryExercises.asMap().entries.map((entry) {
+                    final index = entry.key;
+                    final exercise = entry.value;
+                    return Column(
+                      children: [
+                        buildExerciseCard(
+                          exercise: exercise,
+                          onTap: () {
+                            // Handle exercise card tap if needed
+                            _showExerciseDetails(context, exercise);
+                          },
+                        ),
+                        if (index < subcategoryExercises.length - 1) // Add spacing if not the last exercise
+                          const SizedBox(height: 20),
+                      ],
+                    );
+                  }).toList(),
+                ),
+                const SizedBox(height: 20),
+              ],
             );
           }).toList(),
         ),

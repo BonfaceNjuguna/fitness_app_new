@@ -1,26 +1,36 @@
 {
   "project_info": {
-    "project_number": "399739685326",
-    "project_id": "fitness-app-f6766",
-    "storage_bucket": "fitness-app-f6766.appspot.com"
+    "project_number": "165841835210",
+    "project_id": "sarah-fitness",
+    "storage_bucket": "sarah-fitness.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:399739685326:android:67677f4fe4c6e039cc439f",
+        "mobilesdk_app_id": "1:165841835210:android:59181483f70672df45d033",
         "android_client_info": {
           "package_name": "com.example.newfitnessapp"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "165841835210-c8fb7i5sn82dnutusdbptfgfak4svu5a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
-          "current_key": "AIzaSyCGFT9dZp9mG8Xxq9pGXU5j4qbtT2y5470"
+          "current_key": "AIzaSyBrW6XgFlOmxl96mquwf1k8wpjl-RPMmf8"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "165841835210-c8fb7i5sn82dnutusdbptfgfak4svu5a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }
